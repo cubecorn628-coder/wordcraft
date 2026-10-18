@@ -1296,8 +1296,11 @@ pub fn show(app: &mut WordApp, ctx: &egui::Context) {
     };
     let id = egui::Id::new(("dialog", title));
     let window = crate::window_close::window(ctx, egui::Window::new(tl!(title)).id(id).collapsible(false).resizable(false));
-    let shown = place_dialog(ctx, id, window).show(ctx, |ui| {
-        ui.set_min_width(340.0);
+    let screen_w = ctx.input(|i| i.viewport().outer_rect.map_or(f32::MAX, |r| r.width()));
+    let max_w = (screen_w - 24.0f32).max(260.0f32);
+    let min_w = (340.0f32).min(max_w);
+    let shown = place_dialog(ctx, id, window).max_width(max_w).show(ctx, |ui| {
+        ui.set_min_width(min_w);
         close = body(app, ui, &mut d);
     });
     if let Some(shown) = &shown {
