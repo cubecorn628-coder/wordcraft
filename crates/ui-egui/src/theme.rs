@@ -976,3 +976,11 @@ mod tests {
         assert!(missing.is_empty(), "symbols without a glyph: {missing:#?}");
     }
 }
+
+/// Screen width threshold below which the UI adapts for mobile layout.
+pub const MOBILE_WIDTH_THRESHOLD: f32 = 640.0;
+
+/// Returns whether the available width or screen rect indicates a mobile viewport.
+pub fn is_mobile_width(width: f32) -> bool {
+    width < MOBILE_WIDTH_THRESHOLD
+}
